@@ -4,6 +4,31 @@
         <name>indice.Edi</name>
     </assembly>
     <members>
+        <member name="T:indice.Edi.EdiContainerType">
+            <summary>
+            Enum that specifies a hierarchy. These are the types of containers that can hold values. 
+            </summary>
+        </member>
+        <member name="F:indice.Edi.EdiContainerType.None">
+            <summary>
+            Unspecified container
+            </summary>
+        </member>
+        <member name="F:indice.Edi.EdiContainerType.Segment">
+            <summary>
+            <see cref="F:indice.Edi.EdiContainerType.Segment"/> container.
+            </summary>
+        </member>
+        <member name="F:indice.Edi.EdiContainerType.Element">
+            <summary>
+            <see cref="F:indice.Edi.EdiContainerType.Element"/> container.
+            </summary>
+        </member>
+        <member name="F:indice.Edi.EdiContainerType.Component">
+            <summary>
+            <see cref="F:indice.Edi.EdiContainerType.Component"/> container.
+            </summary>
+        </member>
         <member name="T:indice.Edi.EdiException">
             <summary>
             The exception thrown when an error occurs during EDI serialization or deserialization.
@@ -38,6 +63,277 @@
             <exception cref="T:System.ArgumentNullException">The <paramref name="info"/> parameter is null. </exception>
             <exception cref="T:System.Runtime.Serialization.SerializationException">The class name is null or <see cref="P:System.Exception.HResult"/> is zero (0). </exception>
         </member>
+        <member name="T:indice.Edi.EdiGrammar">
+            <summary>
+            The <see cref="T:indice.Edi.EdiGrammar"/> comprises of all the basic structural settings.
+            Essentialy these are the rules for X12, EDIFact or TRADACOMS.
+            </summary>
+        </member>
+        <member name="M:indice.Edi.EdiGrammar.#ctor">
+            <summary>
+            Constructs an <see cref="T:indice.Edi.EdiGrammar"/> with the EdiFact defaults
+            </summary>
+        </member>
+        <member name="M:indice.Edi.EdiGrammar.#ctor(indice.Edi.IEdiGrammar)">
+            <summary>
+            Construct an <see cref="T:indice.Edi.EdiGrammar"/> given an other <seealso cref="T:indice.Edi.IEdiGrammar"/>
+            </summary>
+            <param name="grammar"></param>
+        </member>
+        <member name="P:indice.Edi.EdiGrammar.SegmentNameDelimiter">
+            <summary>
+            Segment name delimiter is the character used to seperate between a segment name and its elements. Default value <value>'+'</value> same as <see cref="P:indice.Edi.EdiGrammar.DataElementSeparator"/>
+            </summary>
+        </member>
+        <member name="P:indice.Edi.EdiGrammar.ComponentDataElementSeparator">
+            <summary>
+            Component data element separator is the "second level" separator of data elements within a message segment. Default value  <value>':'</value>
+            </summary>
+            <value>The character used to separate between components</value>
+        </member>
+        <member name="P:indice.Edi.EdiGrammar.DataElementSeparator">
+            <summary>
+            Data element separator is the "first level" separator of data elements within a message segment. Default value <value>'+'</value>
+            </summary>
+            <value>An array of possible characters</value>
+        </member>
+        <member name="P:indice.Edi.EdiGrammar.DecimalMark">
+            <summary>
+            Used in EDI-Fact Only. Otherwize null
+            </summary>
+        </member>
+        <member name="P:indice.Edi.EdiGrammar.ReleaseCharacter">
+            <summary>
+            <para>The release character (analogous to the \ in regular expressions)</para>
+            is used as a prefix to remove special meaning from the separator, segment termination, 
+            and release characters when they are used as plain text. Default value is <value>'?'</value>
+            </summary>
+        </member>
+        <member name="P:indice.Edi.EdiGrammar.Reserved">
+            <summary>
+            <para>
+            These characters are reserved for future use. 
+            </para>
+            eg. <see cref="P:indice.Edi.EdiGrammar.SegmentTerminator" /> or <seealso cref="P:indice.Edi.EdiGrammar.DataElementSeparator" /> can not be any in this list.
+            </summary>
+            <value>An array of possible characters</value>
+        </member>
+        <member name="P:indice.Edi.EdiGrammar.SegmentTerminator">
+            <summary>
+            Segment terminator indicates the end of a message segment.
+            </summary>
+        </member>
+        <member name="P:indice.Edi.EdiGrammar.ServiceStringAdviceTag">
+            <summary>
+            Only available in EDI Fact. Otherwize null
+            </summary>
+        </member>
+        <member name="P:indice.Edi.EdiGrammar.InterchangeHeaderTag">
+            <summary>
+            The segment name that marks the Interchange Header.
+            </summary>
+        </member>
+        <member name="P:indice.Edi.EdiGrammar.FunctionalGroupHeaderTag">
+            <summary>
+            The segment name that marks the Functional Group Header.
+            </summary>
+        </member>
+        <member name="P:indice.Edi.EdiGrammar.MessageHeaderTag">
+            <summary>
+            The segment name that marks the Message Header.
+            </summary>
+        </member>
+        <member name="P:indice.Edi.EdiGrammar.MessageTrailerTag">
+            <summary>
+            The segment name that marks the Message Trailer.
+            </summary>
+        </member>
+        <member name="P:indice.Edi.EdiGrammar.FunctionalGroupTrailerTag">
+            <summary>
+            The segment name that marks the Functional Group Trailer.
+            </summary>
+        </member>
+        <member name="P:indice.Edi.EdiGrammar.InterchangeTrailerTag">
+            <summary>
+            The segment name that marks the interchange Trailer.
+            </summary>
+        </member>
+        <member name="M:indice.Edi.EdiGrammar.IsSpecial(System.Char)">
+            <summary>
+            Checks to see if a character is any of the known special characters.
+            </summary>
+            <param name="character"></param>
+            <returns>True if the character is special. Otherwize false.</returns>
+        </member>
+        <member name="M:indice.Edi.EdiGrammar.SetAdvice(System.Char[])">
+            <summary>
+            Populates the Edi grammar delimiters using a eg UNA:+.? '
+            </summary>
+            <param name="chars"></param>
+        </member>
+        <member name="M:indice.Edi.EdiGrammar.SetAdvice(System.Char,System.Char,System.Char,System.Char,System.Nullable{System.Char},System.Nullable{System.Char},System.Nullable{System.Char})">
+            <summary>
+            Populates the Edi grammar delimiters using a eg UNA:+.? '
+            </summary>
+            <param name="segmentNameDelimiter">populates <see cref="P:indice.Edi.EdiGrammar.SegmentNameDelimiter"/></param>
+            <param name="dataElementSeparator">populates <see cref="P:indice.Edi.EdiGrammar.DataElementSeparator"/></param>
+            <param name="componentDataElementSeparator">populates <see cref="P:indice.Edi.EdiGrammar.ComponentDataElementSeparator"/></param>
+            <param name="segmentTerminator">populates <see cref="P:indice.Edi.EdiGrammar.SegmentTerminator"/></param>
+            <param name="releaseCharacter">populates <see cref="P:indice.Edi.EdiGrammar.ReleaseCharacter"/></param>
+            <param name="reserved">populates <see cref="P:indice.Edi.EdiGrammar.Reserved"/></param>
+            <param name="decimalMark">populates <see cref="P:indice.Edi.EdiGrammar.DecimalMark"/> character</param>
+        </member>
+        <member name="M:indice.Edi.EdiGrammar.NewEdiFact">
+            <summary>
+            Factory for creating an <see cref="T:indice.Edi.IEdiGrammar"/> with the EdiFact defaults.
+            </summary>
+            <returns>The <see cref="T:indice.Edi.IEdiGrammar"/></returns>
+        </member>
+        <member name="M:indice.Edi.EdiGrammar.NewTradacoms">
+            <summary>
+            Factory for creating an <see cref="T:indice.Edi.IEdiGrammar"/> with the Trandacoms defaults.
+            </summary>
+            <returns>The <see cref="T:indice.Edi.IEdiGrammar"/></returns>
+        </member>
+        <member name="M:indice.Edi.EdiGrammar.NewX12">
+            <summary>
+            Factory for creating an <see cref="T:indice.Edi.IEdiGrammar"/> with the X12 defaults.
+            </summary>
+            <returns>The <see cref="T:indice.Edi.IEdiGrammar"/></returns>
+        </member>
+        <member name="M:indice.Edi.EdiGrammar.Clone">
+            <summary>
+            Clones the current <see cref="T:indice.Edi.EdiGrammar"/>
+            </summary>
+            <returns>Returns a copy of the current <see cref="T:indice.Edi.EdiGrammar"/> into a new instance</returns>
+        </member>
+        <member name="T:indice.Edi.EdiPath">
+            <summary>
+            Path representing the Position inside an Edi <see cref="F:indice.Edi.EdiContainerType.Segment"/> 
+            </summary>
+        </member>
+        <member name="P:indice.Edi.EdiPath.Segment">
+            <summary>
+            The name of the <see cref="F:indice.Edi.EdiContainerType.Segment"/>
+            </summary>
+        </member>
+        <member name="P:indice.Edi.EdiPath.Element">
+            <summary>
+            The <see cref="F:indice.Edi.EdiContainerType.Element"/> fragment indicating a position inside the <seealso cref="F:indice.Edi.EdiContainerType.Segment"/>. Can be either a Zero based index or star '*'
+            </summary>
+        </member>
+        <member name="P:indice.Edi.EdiPath.Component">
+            <summary>
+            The <see cref="F:indice.Edi.EdiContainerType.Component"/> fragment indicating the location inside the <seealso cref="F:indice.Edi.EdiContainerType.Segment"/>. Can be either a Zero based index or star '*'
+            </summary>
+        </member>
+        <member name="P:indice.Edi.EdiPath.ElementIndex">
+            <summary>
+            Zero based index of the <see cref="F:indice.Edi.EdiContainerType.Element"/> location inside the <seealso cref="F:indice.Edi.EdiContainerType.Segment"/>
+            </summary>
+        </member>
+        <member name="P:indice.Edi.EdiPath.ComponentIndex">
+            <summary>
+            Zero based index of the <see cref="F:indice.Edi.EdiContainerType.Component"/> location inside an <seealso cref="F:indice.Edi.EdiContainerType.Element"/>
+            </summary>
+        </member>
+        <member name="M:indice.Edi.EdiPath.#ctor(indice.Edi.EdiPathFragment)">
+            <summary>
+            constructs an <see cref="T:indice.Edi.EdiPath"/> given the <paramref name="segment"/> name. Componet and Element idexes default to zero.
+            </summary>
+            <param name="segment">The <see cref="F:indice.Edi.EdiContainerType.Segment"/> name</param>
+        </member>
+        <member name="M:indice.Edi.EdiPath.#ctor(indice.Edi.EdiPathFragment,indice.Edi.EdiPathFragment)">
+            <summary>
+            Constructs an <see cref="T:indice.Edi.EdiPath"/> and the <paramref name="element"/>. The index of the component defaults to zero.
+            </summary>
+            <param name="segment">The <see cref="F:indice.Edi.EdiContainerType.Segment"/> name</param>
+            <param name="element">Zero based index of the <see cref="F:indice.Edi.EdiContainerType.Element"/> location inside the <seealso cref="F:indice.Edi.EdiContainerType.Segment"/></param>
+        </member>
+        <member name="M:indice.Edi.EdiPath.#ctor(indice.Edi.EdiPathFragment,indice.Edi.EdiPathFragment,indice.Edi.EdiPathFragment)">
+            <summary>
+            Constructs an <see cref="T:indice.Edi.EdiPath"/>.
+            </summary>
+            <param name="segment">The <see cref="F:indice.Edi.EdiContainerType.Segment"/> name</param>
+            <param name="element">Zero based index of the <see cref="F:indice.Edi.EdiContainerType.Element"/> location inside the <seealso cref="F:indice.Edi.EdiContainerType.Segment"/></param>
+            <param name="component">Zero based index of the <see cref="F:indice.Edi.EdiContainerType.Component"/> location inside an <seealso cref="F:indice.Edi.EdiContainerType.Element"/></param>
+        </member>
+        <member name="M:indice.Edi.EdiPath.GetHashCode">
+            <summary>
+            Returns the hash code for the <see cref="T:indice.Edi.EdiPath"/>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:indice.Edi.EdiPath.Equals(indice.Edi.EdiPath)">
+            <summary>
+            Checks two <see cref="T:indice.Edi.EdiPath"/> for equality
+            </summary>
+            <param name="other"></param>
+            <returns></returns>
+        </member>
+        <member name="M:indice.Edi.EdiPath.Equals(System.Object)">
+            <summary>
+            Checks whether this instance and the specified object are equal.
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:indice.Edi.EdiPath.ToString">
+            <summary>
+            Returns the string representation for the <see cref="T:indice.Edi.EdiPath"/>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:indice.Edi.EdiPath.ToString(System.String)">
+            <summary>
+            Returns the string representation for the <see cref="T:indice.Edi.EdiPath"/> using a format string. 
+            Possible values are (s, e) where "s" stands for segment only, "e" stands for element only.
+            </summary>
+            <param name="format"></param>
+            <returns></returns>
+        </member>
+        <member name="M:indice.Edi.EdiPath.ToString(System.IFormatProvider)">
+            <summary>
+            Returns the string representation for the <see cref="T:indice.Edi.EdiPath"/> using a <paramref name="formatProvider"/>.
+            </summary>
+            <param name="formatProvider"></param>
+            <returns></returns>
+        </member>
+        <member name="M:indice.Edi.EdiPath.ToString(System.String,System.IFormatProvider)">
+            <summary>
+            Returns the string representation for the <see cref="T:indice.Edi.EdiPath"/> using a <paramref name="formatProvider"/> and a format string. 
+            Possible values are (s, e) where "s" stands for segment only, "e" stands for element only.
+            </summary>
+            <param name="format"></param>
+            <param name="formatProvider"></param>
+            <returns></returns>
+        </member>
+        <member name="M:indice.Edi.EdiPath.Parse(System.String)">
+            <summary>
+            Parses the given <paramref name="text"/> into an <see cref="T:indice.Edi.EdiPath"/>.
+            </summary>
+            <param name="text"></param>
+            <returns></returns>
+        </member>
+        <member name="M:indice.Edi.EdiPath.CompareTo(indice.Edi.EdiPath)">
+            <summary>
+            Compares this instance to the <paramref name="other"/> <see cref="T:indice.Edi.EdiPath"/>.  
+            </summary>
+            <param name="other"></param>
+            <returns></returns>
+        </member>
+        <member name="M:indice.Edi.EdiPath.op_Implicit(indice.Edi.EdiPath)~System.String">
+            <summary>
+            Implicit cast operator from <see cref="T:indice.Edi.EdiPath"/> to <seealso cref="T:System.String"/>
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:indice.Edi.EdiPath.op_Explicit(System.String)~indice.Edi.EdiPath">
+            <summary>
+            Explicit cast operator from <see cref="T:System.String"/> to <seealso cref="T:indice.Edi.EdiPath"/>
+            </summary>
+            <param name="value"></param>
+        </member>
         <member name="T:indice.Edi.EdiPathComparer">
             <summary>
             Compares two <see cref="T:indice.Edi.EdiPath"/>s based on their logical structure.
@@ -53,6 +349,150 @@
             <item><description>FunctionalGroupTrailer</description></item>
             <item><description>InterchangeTrailer</description></item>
             </list>
+            </summary>
+        </member>
+        <member name="M:indice.Edi.EdiPathComparer.#ctor(indice.Edi.IEdiGrammar)">
+            <summary>
+            Construct an <see cref="T:indice.Edi.EdiPathComparer"/> given the <seealso cref="T:indice.Edi.IEdiGrammar"/>.
+            </summary>
+            <param name="grammar"></param>
+        </member>
+        <member name="M:indice.Edi.EdiPathComparer.Compare(indice.Edi.EdiPath,indice.Edi.EdiPath)">
+            <summary>
+            Compares two <see cref="T:indice.Edi.EdiPath"/>
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <returns></returns>
+        </member>
+        <member name="M:indice.Edi.EdiPathComparer.Rank(indice.Edi.EdiPath)">
+            <summary>
+            Rank an <see cref="T:indice.Edi.EdiPath"/>
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="T:indice.Edi.EdiPathFormat">
+            <summary>
+            An <see cref="T:System.IFormatProvider"/> for the <seealso cref="T:indice.Edi.EdiPath"/> struct. Available format masks are 
+             "S", "E", "C", "s", "e", "c". They mean "segment" "element" "component". The upercase counterparts will print the path in array format.
+            </summary>
+        </member>
+        <member name="M:indice.Edi.EdiPathFormat.GetFormat(System.Type)">
+            <summary>
+            Gets the format provider for the given <paramref name="formatType"/>.
+            </summary>
+            <param name="formatType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:indice.Edi.EdiPathFormat.Format(System.String,System.Object,System.IFormatProvider)">
+            <summary>
+            Formats the object <paramref name="arg"/> using the <paramref name="formatProvider"/>.
+            </summary>
+            <param name="fmt">Format string</param>
+            <param name="arg">the object to format</param>
+            <param name="formatProvider">The provider</param>
+            <returns></returns>
+        </member>
+        <member name="T:indice.Edi.EdiPathFragment">
+            <summary>
+            Represents a fragment on the <see cref="T:indice.Edi.EdiPath"/>
+            </summary>
+        </member>
+        <member name="M:indice.Edi.EdiPathFragment.#ctor(System.String)">
+            <summary>
+            Constructs a <see cref="T:indice.Edi.EdiPathFragment"/> given the current part
+            </summary>
+            <param name="fragment">A part of the <see cref="T:indice.Edi.EdiPath"/></param>
+        </member>
+        <member name="P:indice.Edi.EdiPathFragment.Value">
+            <summary>
+            The value of the <see cref="T:indice.Edi.EdiPathFragment"/>.
+            </summary>
+        </member>
+        <member name="P:indice.Edi.EdiPathFragment.Index">
+            <summary>
+            Converts the value to a zero based index.
+            </summary>
+        </member>
+        <member name="P:indice.Edi.EdiPathFragment.IsWildcard">
+            <summary>
+            If the <see cref="P:indice.Edi.EdiPathFragment.IsWildcard"/> is true then the current path fragment can hold any type of value.
+            This means any type of name in case of the segment name fragment OR any positive <see cref="T:System.Int32"/> for the element and component indices.
+            </summary>
+        </member>
+        <member name="P:indice.Edi.EdiPathFragment.HasValue">
+            <summary>
+            Gets a value indicating whether the current <see cref="T:indice.Edi.EdiPathFragment"/> has a value.
+            </summary>
+        </member>
+        <member name="P:indice.Edi.EdiPathFragment.HasIndex">
+            <summary>
+            Gets a value indicating whether the current <see cref="T:indice.Edi.EdiPathFragment"/> has a value.
+            </summary>
+        </member>
+        <member name="M:indice.Edi.EdiPathFragment.GetHashCode">
+            <summary>
+            Returns the hash code for this fragment
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:indice.Edi.EdiPathFragment.Equals(System.Object)">
+            <summary>
+            Indicates whether this instance and the specified object are equal.
+            If either one is a wildcard fragment the function will return true regardless.
+            </summary>
+            <param name="obj">The object to check equality with</param>
+            <returns></returns>
+        </member>
+        <member name="M:indice.Edi.EdiPathFragment.Equals(indice.Edi.EdiPathFragment)">
+            <summary>
+            Indicates whether this instance and the specified object are equal.
+            If either one is a wildcard fragment the function will return true regardless.
+            </summary>
+            <param name="other">The object to check equality with</param>
+            <returns></returns>
+        </member>
+        <member name="M:indice.Edi.EdiPathFragment.CompareTo(System.Object)">
+            <summary>
+            Compares this instance to the <paramref name="obj"/> passed. 
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:indice.Edi.EdiPathFragment.ToString">
+            <summary>
+            Returns the value of this <see cref="T:indice.Edi.EdiPathFragment"/> or the wildcard character <code>'*'</code>.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:indice.Edi.EdiPathFragment.op_Implicit(indice.Edi.EdiPathFragment)~System.String">
+            <summary>
+            Implicit cast operator from <see cref="T:indice.Edi.EdiPathFragment"/> to <seealso cref="T:System.String"/>
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:indice.Edi.EdiPathFragment.op_Explicit(System.String)~indice.Edi.EdiPathFragment">
+            <summary>
+            Explicit cast operator from <see cref="T:System.String"/> to <seealso cref="T:indice.Edi.EdiPath"/>
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:indice.Edi.EdiPathFragment.op_Explicit(System.Int32)~indice.Edi.EdiPathFragment">
+            <summary>
+            Explicit cast operator from <see cref="T:System.Int32"/> to <seealso cref="T:indice.Edi.EdiPath"/>
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:indice.Edi.EdiPathFragment.op_Explicit(indice.Edi.EdiPathFragment)~System.Int32">
+            <summary>
+            Explicit cast operator from <see cref="T:System.Int32"/> to <seealso cref="T:indice.Edi.EdiPath"/>
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="T:indice.Edi.EdiReader">
+            <summary>
+            An abstract class that contains the logic to read from an Edi file.
             </summary>
         </member>
         <member name="T:indice.Edi.EdiReader.State">
@@ -171,6 +611,48 @@
         <member name="P:indice.Edi.EdiReader.Path">
             <summary>
             Gets the path of the current EDI token. 
+            </summary>
+        </member>
+        <member name="P:indice.Edi.EdiReader.IsServiceStringAdvice">
+            <summary>
+            Indicates that the current possition of the <see cref="T:indice.Edi.EdiReader"/> is located just after a <seealso cref="F:indice.Edi.EdiToken.SegmentName"/>
+            configured as <seealso cref="P:indice.Edi.IEdiGrammar.ServiceStringAdviceTag"/> in the <seealso cref="P:indice.Edi.EdiReader.Grammar"/>.
+            </summary>
+        </member>
+        <member name="P:indice.Edi.EdiReader.IsStartInterchange">
+            <summary>
+            Indicates that the current possition of the <see cref="T:indice.Edi.EdiReader"/> is located just after a <seealso cref="F:indice.Edi.EdiToken.SegmentName"/>
+            configured as <seealso cref="P:indice.Edi.IEdiGrammar.InterchangeHeaderTag"/> in the <seealso cref="P:indice.Edi.EdiReader.Grammar"/>.
+            </summary>
+        </member>
+        <member name="P:indice.Edi.EdiReader.IsEndInterchange">
+            <summary>
+            Indicates that the current possition of the <see cref="T:indice.Edi.EdiReader"/> is located just after a <seealso cref="F:indice.Edi.EdiToken.SegmentName"/> 
+            configured as <seealso cref="P:indice.Edi.IEdiGrammar.InterchangeTrailerTag"/> in the <seealso cref="P:indice.Edi.EdiReader.Grammar"/>.
+            </summary>
+        </member>
+        <member name="P:indice.Edi.EdiReader.IsStartGroup">
+            <summary>
+            Indicates that the current possition of the <see cref="T:indice.Edi.EdiReader"/> is located just after a <seealso cref="F:indice.Edi.EdiToken.SegmentName"/> 
+            configured as <seealso cref="P:indice.Edi.IEdiGrammar.FunctionalGroupHeaderTag"/> in the <seealso cref="P:indice.Edi.EdiReader.Grammar"/>.
+            </summary>
+        </member>
+        <member name="P:indice.Edi.EdiReader.IsEndGroup">
+            <summary>
+            Indicates that the current possition of the <see cref="T:indice.Edi.EdiReader"/> is located just after a <seealso cref="F:indice.Edi.EdiToken.SegmentName"/> 
+            configured as <seealso cref="P:indice.Edi.IEdiGrammar.FunctionalGroupTrailerTag"/> in the <seealso cref="P:indice.Edi.EdiReader.Grammar"/>.
+            </summary>
+        </member>
+        <member name="P:indice.Edi.EdiReader.IsStartMessage">
+            <summary>
+            Indicates that the current possition of the <see cref="T:indice.Edi.EdiReader"/> is located just after a <seealso cref="F:indice.Edi.EdiToken.SegmentName"/> 
+            configured as <seealso cref="P:indice.Edi.IEdiGrammar.MessageHeaderTag"/> in the <seealso cref="P:indice.Edi.EdiReader.Grammar"/>.
+            </summary>
+        </member>
+        <member name="P:indice.Edi.EdiReader.IsEndMessage">
+            <summary>
+            Indicates that the current possition of the <see cref="T:indice.Edi.EdiReader"/> is located just after a <seealso cref="F:indice.Edi.EdiToken.SegmentName"/> 
+            configured as <seealso cref="P:indice.Edi.IEdiGrammar.MessageTrailerTag"/> in the <seealso cref="P:indice.Edi.EdiReader.Grammar"/>.
             </summary>
         </member>
         <member name="M:indice.Edi.EdiReader.#ctor(indice.Edi.IEdiGrammar)">
@@ -303,7 +785,12 @@
         </member>
         <member name="P:indice.Edi.EdiSerializer.AutoEndSegmentGroups">
             <summary>
-                Gets or sets a value indicating whether segment groups should automatically end when a non-matching segment is found. 
+            Gets or sets a value indicating whether segment groups should automatically end when a non-matching segment is found. 
+            </summary>
+        </member>
+        <member name="P:indice.Edi.EdiSerializer.EnableCompression">
+            <summary>
+            Enables compression when Serializing to edi. Sets the internal <see cref="P:indice.Edi.EdiWriter.EnableCompression"/>. By default is set to true.
             </summary>
         </member>
         <member name="M:indice.Edi.EdiSerializer.Deserialize(indice.Edi.EdiReader)">
@@ -393,6 +880,59 @@
             Specifing the type is optional.
             </param>
         </member>
+        <member name="T:indice.Edi.EdiStructureType">
+            <summary>
+            Indicates the container type of an <see cref="T:indice.Edi.Serialization.EdiStructure"/>. <seealso cref="T:indice.Edi.EdiStructureType"/> 
+            has values in an ascending order from the outer-most container to the inner-most in order to establish hierarchy.
+            </summary>
+        </member>
+        <member name="F:indice.Edi.EdiStructureType.None">
+            <summary>
+            No container.
+            </summary>
+        </member>
+        <member name="F:indice.Edi.EdiStructureType.Interchange">
+            <summary>
+            Used to indicate <see cref="F:indice.Edi.EdiStructureType.Interchange"/>
+            </summary>
+        </member>
+        <member name="F:indice.Edi.EdiStructureType.Group">
+            <summary>
+            Used to indicate <see cref="F:indice.Edi.EdiStructureType.Group"/>
+            </summary>
+        </member>
+        <member name="F:indice.Edi.EdiStructureType.Message">
+            <summary>
+            Used to indicate <see cref="F:indice.Edi.EdiStructureType.Message"/>
+            </summary>
+        </member>
+        <member name="F:indice.Edi.EdiStructureType.SegmentGroup">
+            <summary>
+            Used to indicate <see cref="F:indice.Edi.EdiStructureType.SegmentGroup"/>
+            </summary>
+        </member>
+        <member name="F:indice.Edi.EdiStructureType.Segment">
+            <summary>
+            Used to indicate <see cref="F:indice.Edi.EdiStructureType.Segment"/>
+            </summary>
+        </member>
+        <member name="F:indice.Edi.EdiStructureType.Element">
+            <summary>
+            Used to indicate <see cref="F:indice.Edi.EdiStructureType.Element"/>
+            </summary>
+        </member>
+        <member name="T:indice.Edi.EdiTextReader">
+            <summary>
+            Represents a reader that provides a fast, non-cached, forward-only way of reading EDI data from a <see cref="T:System.IO.TextReader"/>.
+            </summary>
+        </member>
+        <member name="M:indice.Edi.EdiTextReader.#ctor(System.IO.TextReader,indice.Edi.IEdiGrammar)">
+            <summary>
+            Constructs an <see cref="T:indice.Edi.EdiTextReader"/> using the <seealso cref="T:indice.Edi.IEdiGrammar"/> of choice and a <seealso cref="T:System.IO.TextReader"/>
+            </summary>
+            <param name="reader">The <see cref="T:System.IO.TextReader"/></param>
+            <param name="grammar">The <see cref="T:indice.Edi.IEdiGrammar"/></param>
+        </member>
         <member name="M:indice.Edi.EdiTextReader.Read">
             <summary>
             Reads the next EDI token from the stream.
@@ -464,6 +1004,7 @@
             Creates an instance of the <c>EdiWriter</c> class using the specified <see cref="T:System.IO.TextWriter"/>. 
             </summary>
             <param name="textWriter">The <c>TextWriter</c> to write to.</param>
+            <param name="grammar">The <see cref="T:indice.Edi.IEdiGrammar"/> to use for structure and dilimiters</param>
         </member>
         <member name="M:indice.Edi.EdiTextWriter.Flush">
             <summary>
@@ -480,6 +1021,31 @@
             Writes the segment name of a name/value pair on a Edi object.
             </summary>
             <param name="name">The name of the property.</param>
+        </member>
+        <member name="M:indice.Edi.EdiTextWriter.WriteSegmentTerminator">
+            <summary>
+            Writes the end of a Edi <see cref="F:indice.Edi.EdiContainerType.Segment"/>.
+            </summary>
+        </member>
+        <member name="M:indice.Edi.EdiTextWriter.WriteComponentDelimiter">
+            <summary>
+            Writes an <see cref="F:indice.Edi.EdiContainerType.Component"/> separator.
+            </summary>
+        </member>
+        <member name="M:indice.Edi.EdiTextWriter.WriteElementDelimiter">
+            <summary>
+            Writes an <see cref="F:indice.Edi.EdiContainerType.Element"/> separator.
+            </summary>
+        </member>
+        <member name="M:indice.Edi.EdiTextWriter.WriteSegmentNameDelimiter">
+            <summary>
+            Writes the tag name of the <see cref="F:indice.Edi.EdiContainerType.Segment"/>.
+            </summary>
+        </member>
+        <member name="M:indice.Edi.EdiTextWriter.WriteNewLine">
+            <summary>
+            Writes indent characters. Line terminator if allowed by the current <see cref="T:indice.Edi.IEdiGrammar"/>.
+            </summary>
         </member>
         <member name="M:indice.Edi.EdiTextWriter.WriteValue(System.Object)">
             <summary>
@@ -499,54 +1065,63 @@
             Writes a <see cref="T:System.String"/> value.
             </summary>
             <param name="value">The <see cref="T:System.String"/> value to write.</param>
+            <param name="picture"></param>
         </member>
         <member name="M:indice.Edi.EdiTextWriter.WriteValue(System.Int32,System.Nullable{indice.Edi.Picture})">
             <summary>
             Writes a <see cref="T:System.Int32"/> value.
             </summary>
             <param name="value">The <see cref="T:System.Int32"/> value to write.</param>
+            <param name="picture"></param>
         </member>
         <member name="M:indice.Edi.EdiTextWriter.WriteValue(System.UInt32,System.Nullable{indice.Edi.Picture})">
             <summary>
             Writes a <see cref="T:System.UInt32"/> value.
             </summary>
             <param name="value">The <see cref="T:System.UInt32"/> value to write.</param>
+            <param name="picture"></param>
         </member>
         <member name="M:indice.Edi.EdiTextWriter.WriteValue(System.Int64,System.Nullable{indice.Edi.Picture})">
             <summary>
             Writes a <see cref="T:System.Int64"/> value.
             </summary>
             <param name="value">The <see cref="T:System.Int64"/> value to write.</param>
+            <param name="picture"></param>
         </member>
         <member name="M:indice.Edi.EdiTextWriter.WriteValue(System.UInt64,System.Nullable{indice.Edi.Picture})">
             <summary>
             Writes a <see cref="T:System.UInt64"/> value.
             </summary>
             <param name="value">The <see cref="T:System.UInt64"/> value to write.</param>
+            <param name="picture"></param>
         </member>
         <member name="M:indice.Edi.EdiTextWriter.WriteValue(System.Single,System.Nullable{indice.Edi.Picture})">
             <summary>
             Writes a <see cref="T:System.Single"/> value.
             </summary>
             <param name="value">The <see cref="T:System.Single"/> value to write.</param>
+            <param name="picture"></param>
         </member>
         <member name="M:indice.Edi.EdiTextWriter.WriteValue(System.Nullable{System.Single},System.Nullable{indice.Edi.Picture})">
             <summary>
             Writes a <see cref="T:System.Nullable`1"/> value.
             </summary>
             <param name="value">The <see cref="T:System.Nullable`1"/> value to write.</param>
+            <param name="picture"></param>
         </member>
         <member name="M:indice.Edi.EdiTextWriter.WriteValue(System.Double,System.Nullable{indice.Edi.Picture})">
             <summary>
             Writes a <see cref="T:System.Double"/> value.
             </summary>
             <param name="value">The <see cref="T:System.Double"/> value to write.</param>
+            <param name="picture"></param>
         </member>
         <member name="M:indice.Edi.EdiTextWriter.WriteValue(System.Nullable{System.Double},System.Nullable{indice.Edi.Picture})">
             <summary>
             Writes a <see cref="T:System.Nullable`1"/> value.
             </summary>
             <param name="value">The <see cref="T:System.Nullable`1"/> value to write.</param>
+            <param name="picture"></param>
         </member>
         <member name="M:indice.Edi.EdiTextWriter.WriteValue(System.Boolean)">
             <summary>
@@ -559,12 +1134,14 @@
             Writes a <see cref="T:System.Int16"/> value.
             </summary>
             <param name="value">The <see cref="T:System.Int16"/> value to write.</param>
+            <param name="picture"></param>
         </member>
         <member name="M:indice.Edi.EdiTextWriter.WriteValue(System.UInt16,System.Nullable{indice.Edi.Picture})">
             <summary>
             Writes a <see cref="T:System.UInt16"/> value.
             </summary>
             <param name="value">The <see cref="T:System.UInt16"/> value to write.</param>
+            <param name="picture"></param>
         </member>
         <member name="M:indice.Edi.EdiTextWriter.WriteValue(System.Char)">
             <summary>
@@ -577,24 +1154,28 @@
             Writes a <see cref="T:System.SByte"/> value.
             </summary>
             <param name="value">The <see cref="T:System.SByte"/> value to write.</param>
+            <param name="picture"></param>
         </member>
         <member name="M:indice.Edi.EdiTextWriter.WriteValue(System.Decimal,System.Nullable{indice.Edi.Picture})">
             <summary>
             Writes a <see cref="T:System.Decimal"/> value.
             </summary>
             <param name="value">The <see cref="T:System.Decimal"/> value to write.</param>
+            <param name="picture"></param>
         </member>
         <member name="M:indice.Edi.EdiTextWriter.WriteValue(System.DateTime,System.String)">
             <summary>
             Writes a <see cref="T:System.DateTime"/> value.
             </summary>
             <param name="value">The <see cref="T:System.DateTime"/> value to write.</param>
+            <param name="format"></param>
         </member>
         <member name="M:indice.Edi.EdiTextWriter.WriteValue(System.DateTimeOffset,System.String)">
             <summary>
             Writes a <see cref="T:System.DateTimeOffset"/> value.
             </summary>
             <param name="value">The <see cref="T:System.DateTimeOffset"/> value to write.</param>
+            <param name="format"></param>
         </member>
         <member name="M:indice.Edi.EdiTextWriter.WriteValue(System.Guid)">
             <summary>
@@ -721,6 +1302,11 @@
             Gets or sets the culture used when writing Edi. Defaults to <see cref="P:System.Globalization.CultureInfo.InvariantCulture"/>.
             </summary>
         </member>
+        <member name="P:indice.Edi.EdiWriter.EnableCompression">
+            <summary>
+            Enable compression of edi messages. Avoids unnecessary empty component separators.
+            </summary>
+        </member>
         <member name="M:indice.Edi.EdiWriter.#ctor(indice.Edi.IEdiGrammar)">
             <summary>
             Creates an instance of the <c>EdiWriter</c> class. 
@@ -782,14 +1368,19 @@
             </summary>
             <param name="token">The end token to write.</param>
         </member>
+        <member name="M:indice.Edi.EdiWriter.WriteServiceStringAdvice">
+            <summary>
+            Writes the Service string advice. Usualy this is the first thing to write in a transmission and it is done by consulting with the current <see cref="T:indice.Edi.IEdiGrammar"/>.
+            </summary>
+        </member>
         <member name="M:indice.Edi.EdiWriter.WriteNewLine">
             <summary>
-            Writes indent characters.
+            Writes indent characters. Line terminator if allowed by the current <see cref="T:indice.Edi.IEdiGrammar"/>.
             </summary>
         </member>
         <member name="M:indice.Edi.EdiWriter.WriteSegmentNameDelimiter">
             <summary>
-            Writes indent characters.
+            Writes the tag name of the <see cref="F:indice.Edi.EdiContainerType.Segment"/>.
             </summary>
         </member>
         <member name="M:indice.Edi.EdiWriter.WriteSegmentTerminator">
@@ -823,42 +1414,49 @@
             Writes a <see cref="T:System.String"/> value.
             </summary>
             <param name="value">The <see cref="T:System.String"/> value to write.</param>
+            <param name="picture"></param>
         </member>
         <member name="M:indice.Edi.EdiWriter.WriteValue(System.Int32,System.Nullable{indice.Edi.Picture})">
             <summary>
             Writes a <see cref="T:System.Int32"/> value.
             </summary>
             <param name="value">The <see cref="T:System.Int32"/> value to write.</param>
+            <param name="picture"></param>
         </member>
         <member name="M:indice.Edi.EdiWriter.WriteValue(System.UInt32,System.Nullable{indice.Edi.Picture})">
             <summary>
             Writes a <see cref="T:System.UInt32"/> value.
             </summary>
             <param name="value">The <see cref="T:System.UInt32"/> value to write.</param>
+            <param name="picture"></param>
         </member>
         <member name="M:indice.Edi.EdiWriter.WriteValue(System.Int64,System.Nullable{indice.Edi.Picture})">
             <summary>
             Writes a <see cref="T:System.Int64"/> value.
             </summary>
             <param name="value">The <see cref="T:System.Int64"/> value to write.</param>
+            <param name="picture"></param>
         </member>
         <member name="M:indice.Edi.EdiWriter.WriteValue(System.UInt64,System.Nullable{indice.Edi.Picture})">
             <summary>
             Writes a <see cref="T:System.UInt64"/> value.
             </summary>
             <param name="value">The <see cref="T:System.UInt64"/> value to write.</param>
+            <param name="picture"></param>
         </member>
         <member name="M:indice.Edi.EdiWriter.WriteValue(System.Single,System.Nullable{indice.Edi.Picture})">
             <summary>
             Writes a <see cref="T:System.Single"/> value.
             </summary>
             <param name="value">The <see cref="T:System.Single"/> value to write.</param>
+            <param name="picture"></param>
         </member>
         <member name="M:indice.Edi.EdiWriter.WriteValue(System.Double,System.Nullable{indice.Edi.Picture})">
             <summary>
             Writes a <see cref="T:System.Double"/> value.
             </summary>
             <param name="value">The <see cref="T:System.Double"/> value to write.</param>
+            <param name="picture"></param>
         </member>
         <member name="M:indice.Edi.EdiWriter.WriteValue(System.Boolean)">
             <summary>
@@ -871,12 +1469,14 @@
             Writes a <see cref="T:System.Int16"/> value.
             </summary>
             <param name="value">The <see cref="T:System.Int16"/> value to write.</param>
+            <param name="picture"></param>
         </member>
         <member name="M:indice.Edi.EdiWriter.WriteValue(System.UInt16,System.Nullable{indice.Edi.Picture})">
             <summary>
             Writes a <see cref="T:System.UInt16"/> value.
             </summary>
             <param name="value">The <see cref="T:System.UInt16"/> value to write.</param>
+            <param name="picture"></param>
         </member>
         <member name="M:indice.Edi.EdiWriter.WriteValue(System.Char)">
             <summary>
@@ -895,24 +1495,28 @@
             Writes a <see cref="T:System.SByte"/> value.
             </summary>
             <param name="value">The <see cref="T:System.SByte"/> value to write.</param>
+            <param name="picture"></param>
         </member>
         <member name="M:indice.Edi.EdiWriter.WriteValue(System.Decimal,System.Nullable{indice.Edi.Picture})">
             <summary>
             Writes a <see cref="T:System.Decimal"/> value.
             </summary>
             <param name="value">The <see cref="T:System.Decimal"/> value to write.</param>
+            <param name="picture"></param>
         </member>
         <member name="M:indice.Edi.EdiWriter.WriteValue(System.DateTime,System.String)">
             <summary>
             Writes a <see cref="T:System.DateTime"/> value.
             </summary>
             <param name="value">The <see cref="T:System.DateTime"/> value to write.</param>
+            <param name="format"></param>
         </member>
         <member name="M:indice.Edi.EdiWriter.WriteValue(System.DateTimeOffset,System.String)">
             <summary>
             Writes a <see cref="T:System.DateTimeOffset"/> value.
             </summary>
             <param name="value">The <see cref="T:System.DateTimeOffset"/> value to write.</param>
+            <param name="format"></param>
         </member>
         <member name="M:indice.Edi.EdiWriter.WriteValue(System.Guid)">
             <summary>
@@ -931,30 +1535,35 @@
             Writes a <see cref="T:System.Nullable`1"/> value.
             </summary>
             <param name="value">The <see cref="T:System.Nullable`1"/> value to write.</param>
+            <param name="picture"></param>
         </member>
         <member name="M:indice.Edi.EdiWriter.WriteValue(System.Nullable{System.UInt32},System.Nullable{indice.Edi.Picture})">
             <summary>
             Writes a <see cref="T:System.Nullable`1"/> value.
             </summary>
             <param name="value">The <see cref="T:System.Nullable`1"/> value to write.</param>
+            <param name="picture"></param>
         </member>
         <member name="M:indice.Edi.EdiWriter.WriteValue(System.Nullable{System.Int64},System.Nullable{indice.Edi.Picture})">
             <summary>
             Writes a <see cref="T:System.Nullable`1"/> value.
             </summary>
             <param name="value">The <see cref="T:System.Nullable`1"/> value to write.</param>
+            <param name="picture"></param>
         </member>
         <member name="M:indice.Edi.EdiWriter.WriteValue(System.Nullable{System.UInt64},System.Nullable{indice.Edi.Picture})">
             <summary>
             Writes a <see cref="T:System.Nullable`1"/> value.
             </summary>
             <param name="value">The <see cref="T:System.Nullable`1"/> value to write.</param>
+            <param name="picture"></param>
         </member>
         <member name="M:indice.Edi.EdiWriter.WriteValue(System.Nullable{System.Single},System.Nullable{indice.Edi.Picture})">
             <summary>
             Writes a <see cref="T:System.Nullable`1"/> value.
             </summary>
             <param name="value">The <see cref="T:System.Nullable`1"/> value to write.</param>
+            <param name="picture"></param>
         </member>
         <member name="M:indice.Edi.EdiWriter.WriteValue(System.Nullable{System.Double},System.Nullable{indice.Edi.Picture})">
             <summary>
@@ -1014,12 +1623,14 @@
             Writes a <see cref="T:System.Nullable`1"/> value.
             </summary>
             <param name="value">The <see cref="T:System.Nullable`1"/> value to write.</param>
+            <param name="format"></param>
         </member>
         <member name="M:indice.Edi.EdiWriter.WriteValue(System.Nullable{System.DateTimeOffset},System.String)">
             <summary>
             Writes a <see cref="T:System.Nullable`1"/> value.
             </summary>
             <param name="value">The <see cref="T:System.Nullable`1"/> value to write.</param>
+            <param name="format"></param>
         </member>
         <member name="M:indice.Edi.EdiWriter.WriteValue(System.Nullable{System.Guid})">
             <summary>
@@ -1196,6 +1807,36 @@
             Only available in EDI Fact. Otherwize null
             </summary>
         </member>
+        <member name="P:indice.Edi.IEdiGrammar.InterchangeHeaderTag">
+            <summary>
+            The segment name that marks the Interchange Header.
+            </summary>
+        </member>
+        <member name="P:indice.Edi.IEdiGrammar.FunctionalGroupHeaderTag">
+            <summary>
+            The segment name that marks the Functional Group Header.
+            </summary>
+        </member>
+        <member name="P:indice.Edi.IEdiGrammar.MessageHeaderTag">
+            <summary>
+            The segment name that marks the Message Header.
+            </summary>
+        </member>
+        <member name="P:indice.Edi.IEdiGrammar.MessageTrailerTag">
+            <summary>
+            The segment name that marks the Message Trailer.
+            </summary>
+        </member>
+        <member name="P:indice.Edi.IEdiGrammar.FunctionalGroupTrailerTag">
+            <summary>
+            The segment name that marks the Functional Group Trailer.
+            </summary>
+        </member>
+        <member name="P:indice.Edi.IEdiGrammar.InterchangeTrailerTag">
+            <summary>
+            The segment name that marks the interchange Trailer.
+            </summary>
+        </member>
         <member name="M:indice.Edi.IEdiGrammar.IsSpecial(System.Char)">
             <summary>
             Checks to see if a character is any of the known special characters.
@@ -1246,6 +1887,21 @@
             </summary>
             <value>The current line position or 0 if no line information is available (for example, HasLineInfo returns false).</value>
         </member>
+        <member name="T:indice.Edi.PictureKind">
+            <summary>
+            Picture Kind is used to specify the pattern of an Edi value.
+            </summary>
+        </member>
+        <member name="F:indice.Edi.PictureKind.Alphanumeric">
+            <summary>
+            Characters and numbers are allowed
+            </summary>
+        </member>
+        <member name="F:indice.Edi.PictureKind.Numeric">
+            <summary>
+            Only numbers are allowed.
+            </summary>
+        </member>
         <member name="T:indice.Edi.Picture">
             <summary>
             Indicates the number of numeric (9) digits or alphanumeric (X) characters allowed in the data field.  
@@ -1272,6 +1928,73 @@
             <summary>
             This indicated if the value is a floating point number with by checking whether <see cref="P:indice.Edi.Picture.Precision"/> is positive.
             </summary>
+        </member>
+        <member name="P:indice.Edi.Picture.IsValid">
+            <summary>
+            Checks of the scale is a positive integer
+            </summary>
+        </member>
+        <member name="M:indice.Edi.Picture.#ctor(System.UInt16)">
+            <summary>
+            Constructs an <see cref="F:indice.Edi.PictureKind.Alphanumeric"/> <see cref="T:indice.Edi.Picture"/> of a given <paramref name="length"/>.
+            </summary>
+        </member>
+        <member name="M:indice.Edi.Picture.#ctor(System.UInt16,indice.Edi.PictureKind)">
+            <summary>
+            Constructs a <see cref="T:indice.Edi.Picture"/> of a given <paramref name="length"/>. Used to instantiate integer formats and alphanumerics.
+            </summary>
+            <param name="length"></param>
+            <param name="kind"></param>
+        </member>
+        <member name="M:indice.Edi.Picture.#ctor(System.UInt16,System.Byte)">
+            <summary>
+            Constructs a <see cref="F:indice.Edi.PictureKind.Numeric"/> <seealso cref="T:indice.Edi.Picture"/>.
+            </summary>
+            <param name="integerLength"></param>
+            <param name="decimalLength"></param>
+        </member>
+        <member name="M:indice.Edi.Picture.#ctor(System.UInt16,System.Byte,indice.Edi.PictureKind)">
+            <summary>
+            Constructs a <see cref="T:indice.Edi.Picture"/>.
+            </summary>
+            <param name="integerLength"></param>
+            <param name="decimalLength"></param>
+            <param name="kind"></param>
+        </member>
+        <member name="M:indice.Edi.Picture.GetHashCode">
+            <summary>
+            Returns a hash code for the value of this instance.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:indice.Edi.Picture.Equals(System.Object)">
+            <summary>
+            Indictes wheather this instance and the given object are equal.
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:indice.Edi.Picture.ToString">
+            <summary>
+            String representation of a <see cref="T:indice.Edi.Picture"/> clause.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:indice.Edi.Picture.Parse(System.String)">
+            <summary>
+            Parse a text representation of a <see cref="T:indice.Edi.Picture"/> into the struct.
+            </summary>
+            <param name="text"></param>
+            <returns></returns>
+        </member>
+        <member name="M:indice.Edi.Picture.op_Implicit(indice.Edi.Picture)~System.String">
+            <summary>
+            Implicit cast operator from <see cref="T:indice.Edi.Picture"/> to <seealso cref="T:System.String"/>
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:indice.Edi.Picture.op_Explicit(System.String)~indice.Edi.Picture">
+            Explicit cast operator from <see cref="T:System.String"/> to <seealso cref="T:indice.Edi.Picture"/>
         </member>
         <member name="T:indice.Edi.Serialization.EdiConditionStackMode">
             <summary>
@@ -1322,11 +2045,79 @@
             You can subclass this and override the SatisfiedBy method in order to implement a custom condition check.
             </summary>
         </member>
+        <member name="P:indice.Edi.Serialization.EdiConditionBaseAttribute.MatchValue">
+            <summary>
+            The value used to compare against.
+            </summary>
+        </member>
+        <member name="M:indice.Edi.Serialization.EdiConditionBaseAttribute.#ctor(System.String)">
+            <summary>
+            Creates a Condition attribute by passingthe expected <paramref name="matchValue"/>.
+            </summary>
+            <param name="matchValue">The expected value to compare against.</param>
+        </member>
+        <member name="M:indice.Edi.Serialization.EdiConditionBaseAttribute.SatisfiedBy(System.String)">
+            <summary>
+            Checks if the condition is satisfied.
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:indice.Edi.Serialization.EdiConditionBaseAttribute.ToString">
+            <summary>
+            Returns a string that represents the condition.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:indice.Edi.Serialization.EdiConditionAttribute">
             <summary>
             In case multiple MessageTypes or Segment types with the same name. <see cref="T:indice.Edi.Serialization.EdiConditionAttribute"/> is used 
             to discriminate the classes based on a component value
             </summary>
+        </member>
+        <member name="P:indice.Edi.Serialization.EdiConditionAttribute.Options">
+            <summary>
+            Possible values to check against.
+            </summary>
+        </member>
+        <member name="P:indice.Edi.Serialization.EdiConditionAttribute.CheckFor">
+            <summary>
+            Condition satisfaction oprator. Can be either <see cref="F:indice.Edi.Serialization.EdiConditionCheckType.Equal"/> or <seealso cref="F:indice.Edi.Serialization.EdiConditionCheckType.NotEqual"/>.
+            </summary>
+        </member>
+        <member name="M:indice.Edi.Serialization.EdiConditionAttribute.#ctor(System.String)">
+            <summary>
+            Creates a Condition attribute by passingthe expected <paramref name="matchValue"/>.
+            </summary>
+            <param name="matchValue">The expected value to compare against.</param>
+        </member>
+        <member name="M:indice.Edi.Serialization.EdiConditionAttribute.#ctor(System.String,System.String)">
+            <summary>
+            Creates a Condition attribute by passing the two possible values to check against.
+            </summary>
+            <param name="optionOne">One of the possible expected values</param>
+            <param name="optionTwo">The second possibly expected value</param>
+        </member>
+        <member name="M:indice.Edi.Serialization.EdiConditionAttribute.#ctor(System.String,System.String,System.String[])">
+            <summary>
+            Creates a Condition attribute by passing the multiple (more than two) values to check against.
+            </summary>
+            <param name="optionOne">One of the possible expected values</param>
+            <param name="optionTwo">The second possibly expected value</param>
+            <param name="options">The rest values.</param>
+        </member>
+        <member name="M:indice.Edi.Serialization.EdiConditionAttribute.SatisfiedBy(System.String)">
+            <summary>
+            Checks if the condition is satisfied.
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:indice.Edi.Serialization.EdiConditionAttribute.ToString">
+            <summary>
+            Returns a string that represents the condition.
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:indice.Edi.Serialization.EdiElementAttribute">
             <summary>
@@ -1350,6 +2141,47 @@
             ie DTM/0/1 or DTM/0 or even simply DTM
             </summary>
         </member>
+        <member name="P:indice.Edi.Serialization.EdiPathAttribute.Path">
+            <summary>
+            The path identifying the annotated members position inside the Edi transmission. 
+            Expects a string representation of an <see cref="T:indice.Edi.EdiPath"/> pointing to a structure ie: "XYZ" or "XYZ/0"
+            </summary>
+        </member>
+        <member name="P:indice.Edi.Serialization.EdiPathAttribute.Segment">
+            <summary>
+            The name of the <see cref="F:indice.Edi.EdiContainerType.Segment"/>
+            </summary>
+        </member>
+        <member name="P:indice.Edi.Serialization.EdiPathAttribute.ElementIndex">
+            <summary>
+            Zero based index of the <see cref="F:indice.Edi.EdiContainerType.Element"/> location inside the <seealso cref="F:indice.Edi.EdiContainerType.Segment"/>
+            </summary>
+        </member>
+        <member name="P:indice.Edi.Serialization.EdiPathAttribute.ComponentIndex">
+            <summary>
+            Zero based index of the <see cref="F:indice.Edi.EdiContainerType.Component"/> location inside an <seealso cref="F:indice.Edi.EdiContainerType.Element"/>
+            </summary>
+        </member>
+        <member name="M:indice.Edi.Serialization.EdiPathAttribute.#ctor(System.String)">
+            <summary>
+            constructs the <see cref="T:indice.Edi.Serialization.EdiPathAttribute"/>
+            </summary>
+            <param name="path">Expects a string representation of an <see cref="T:indice.Edi.EdiPath"/> pointing to a structure ie: "XYZ" or "XYZ/0"</param>
+        </member>
+        <member name="M:indice.Edi.Serialization.EdiPathAttribute.#ctor(System.String,System.String,System.String)">
+            <summary>
+            constructs the <see cref="T:indice.Edi.Serialization.EdiPathAttribute"/> given its position.
+            </summary>
+            <param name="segmentPart"></param>
+            <param name="elementPart"></param>
+            <param name="componentPart"></param>
+        </member>
+        <member name="M:indice.Edi.Serialization.EdiPathAttribute.#ctor(indice.Edi.EdiPath)">
+            <summary>
+            constructs the <see cref="T:indice.Edi.Serialization.EdiPathAttribute"/>.
+            </summary>
+            <param name="path"></param>
+        </member>
         <member name="T:indice.Edi.Serialization.EdiSegmentAttribute">
             <summary>
             <see cref="T:indice.Edi.Serialization.EdiSegmentAttribute"/> marks a propery/class to be deserialized for a given segment. Used in conjunction with EdiPath
@@ -1364,11 +2196,13 @@
             Also known as Segment Loops
             </summary>
         </member>
-        <member name="M:indice.Edi.Serialization.EdiSegmentGroupAttribute.#ctor(System.String)">
+        <member name="M:indice.Edi.Serialization.EdiSegmentGroupAttribute.#ctor(System.String,System.String[])">
             <summary>
-            The segment name that marks the begining of a each group.
+            The Segment group attribute identifies a logical group by passing the start segment name 
+            and the included (other segments included on the same level).
             </summary>
-            <param name="segmentStart"></param>
+            <param name="segmentStart">The segment name that identifies the begining of the group</param>
+            <param name="includedSegments">The rest segments included under the same level in the group</param>
         </member>
         <member name="P:indice.Edi.Serialization.EdiSegmentGroupAttribute.Start">
             <summary>
@@ -1377,7 +2211,63 @@
         </member>
         <member name="P:indice.Edi.Serialization.EdiSegmentGroupAttribute.SequenceEnd">
             <summary>
-            Optionaly define the segment name that defines the end of the group or sequence.
+            Optionaly define the segment name that defines the end of the group or sequence. 
+            IMPORTANT: this segment must be one that is NOT included in the group, 
+            but one that safely can identify that the group has ended (outside the group).
+            </summary>
+        </member>
+        <member name="M:indice.Edi.Serialization.EdiSegmentGroupAttribute.Contains(System.String)">
+            <summary>
+            Checks wether the group contains a segment
+            </summary>
+            <param name="segmentName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:indice.Edi.Serialization.EdiSegmentGroupAttribute.ToString">
+            <summary>
+            Returns a string that represents the object as a concatenated list of segment names. Plus the break segment end if available.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:indice.Edi.Serialization.EdiStructure.StructureType">
+            <summary>
+            Represents the type of the structure. (Interchange, Group, Message, Segment etc.) 
+            </summary>
+        </member>
+        <member name="P:indice.Edi.Serialization.EdiStructure.Container">
+            <summary>
+            Represents immediate container structure. Essentialy this is the parent level. 
+            </summary>
+        </member>
+        <member name="P:indice.Edi.Serialization.EdiStructure.Descriptor">
+            <summary>
+            The <see cref="T:indice.Edi.Serialization.EdiTypeDescriptor"/> that contains all information derived from the anotations on the CLR <seealso cref="T:System.Type"/>.
+            </summary>
+        </member>
+        <member name="P:indice.Edi.Serialization.EdiStructure.Index">
+            <summary>
+            An index indicating that this structure is part of a collention at posion <see cref="P:indice.Edi.Serialization.EdiStructure.Index"/>
+            </summary>
+        </member>
+        <member name="P:indice.Edi.Serialization.EdiStructure.Instance">
+            <summary>
+            The CLR model instance that maps to the structure
+            </summary>
+        </member>
+        <member name="P:indice.Edi.Serialization.EdiStructure.CachedReads">
+            <summary>
+            A queue that contains all the read entries that where used by advancing the reader in order to search for pottential clues. 
+            It is populated when searching for Conditions and emptied when populating the values.
+            </summary>
+        </member>
+        <member name="P:indice.Edi.Serialization.EdiStructure.Conditions">
+            <summary>
+            All conditions that led to the creation of this structure. 
+            </summary>
+        </member>
+        <member name="P:indice.Edi.Serialization.EdiStructure.ConditionStackMode">
+            <summary>
+            The conditions stack mode.
             </summary>
         </member>
         <member name="P:indice.Edi.Serialization.EdiStructure.IsClosed">
@@ -1397,8 +2287,20 @@
         </member>
         <member name="P:indice.Edi.Serialization.EdiStructure.SequenceEnd">
             <summary>
-            The sequence start path.
+            The sequence escape path.
             </summary>
+        </member>
+        <member name="P:indice.Edi.Serialization.EdiStructure.GroupMembers">
+            <summary>
+            The sequence members.
+            </summary>
+        </member>
+        <member name="M:indice.Edi.Serialization.EdiStructure.GroupContains(System.String)">
+            <summary>
+            Checks wether the group contains a segment. Will throw in case of not defined members on the group attribute.
+            </summary>
+            <param name="segmentName"></param>
+            <returns></returns>
         </member>
         <member name="M:indice.Edi.Serialization.EdiStructure.Close">
             <summary>
@@ -1411,10 +2313,61 @@
             Base class for all structure difining attributes 
             </summary>
         </member>
+        <member name="P:indice.Edi.Serialization.EdiStructureAttribute.Mandatory">
+            <summary>
+            Indicates that the current structure (Segment or Element) is mandatory or optional. By default this is false.
+            </summary>
+        </member>
+        <member name="P:indice.Edi.Serialization.EdiStructureAttribute.Description">
+            <summary>
+            Helps by annotating the current member with a <see cref="P:indice.Edi.Serialization.EdiStructureAttribute.Description"/>. Only for reference and documentation.
+            </summary>
+        </member>
         <member name="T:indice.Edi.Serialization.EdiValueAttribute">
             <summary>
             Use <see cref="T:indice.Edi.Serialization.EdiValueAttribute"/> for any value inside a segment. 
             </summary>
+        </member>
+        <member name="P:indice.Edi.Serialization.EdiValueAttribute.Mandatory">
+            <summary>
+            Indicates that the current structure (Segment or Element) is mandatory or optional. By default this is false.
+            </summary>
+        </member>
+        <member name="P:indice.Edi.Serialization.EdiValueAttribute.Description">
+            <summary>
+            Helps by annotating the current member with a <see cref="P:indice.Edi.Serialization.EdiValueAttribute.Description"/>. Only for reference and documentation.
+            </summary>
+        </member>
+        <member name="P:indice.Edi.Serialization.EdiValueAttribute.Format">
+            <summary>
+            Extra dotnet style format string. Currently only used for date formatting. (ie yyyyMMdd)
+            </summary>
+        </member>
+        <member name="P:indice.Edi.Serialization.EdiValueAttribute.Path">
+            <summary>
+            The path for the component value. A string representation of an <see cref="T:indice.Edi.EdiPath"/> pointing to a component value ie: "XYZ/0/0"
+            </summary>
+        </member>
+        <member name="P:indice.Edi.Serialization.EdiValueAttribute.Picture">
+            <summary>
+            The value spec regarding value size and format.
+            </summary>
+        </member>
+        <member name="M:indice.Edi.Serialization.EdiValueAttribute.#ctor">
+            <summary>
+            Constructs the attribute with defaults
+            </summary>
+        </member>
+        <member name="M:indice.Edi.Serialization.EdiValueAttribute.#ctor(System.String)">
+            <summary>
+            Constructs the attribute given the string representation of a <see cref="P:indice.Edi.Serialization.EdiValueAttribute.Picture"/>
+            </summary>
+        </member>
+        <member name="M:indice.Edi.Serialization.EdiValueAttribute.#ctor(indice.Edi.Picture)">
+            <summary>
+            Constructs the attribute given the <see cref="P:indice.Edi.Serialization.EdiValueAttribute.Picture"/>
+            </summary>
+            <param name="picture"></param>
         </member>
         <member name="T:indice.Edi.Serialization.IEdiCondition">
             <summary>
@@ -1467,9 +2420,29 @@
             is returned if assignable to the target type.
             </returns>
         </member>
+        <member name="T:indice.Edi.Utilities.EdiExtensions">
+            <summary>
+            Helper Extension methods.
+            </summary>
+        </member>
+        <member name="M:indice.Edi.Utilities.EdiExtensions.IsStartToken(indice.Edi.EdiToken)">
+            <summary>
+            Check to see if the given <see cref="T:indice.Edi.EdiToken"/> represents the begining of a structural container.
+            </summary>
+            <param name="token">The token to check</param>
+            <returns></returns>
+        </member>
+        <member name="M:indice.Edi.Utilities.EdiExtensions.IsPrimitiveToken(indice.Edi.EdiToken)">
+            <summary>
+            Check to see if the given <see cref="T:indice.Edi.EdiToken"/> represents primitive value type.
+            </summary>
+            <param name="token">The token to check</param>
+            <returns></returns>
+        </member>
         <member name="M:indice.Edi.Utilities.EdiExtensions.OfType(System.Collections.Generic.IEnumerable{indice.Edi.Serialization.EdiAttribute},indice.Edi.EdiStructureType)">
             <summary>
-            
+            Allows the filtering of tokens based on the <see cref="T:indice.Edi.EdiStructureType"/> they represent 
+            instead of the build in way using the corresponding CLR <seealso cref="T:System.Type"/>. 
             </summary>
             <param name="attributes">The list of available attributes</param>
             <param name="container">This is the type of container we are searchig attributes for.</param>
@@ -1480,6 +2453,130 @@
             Figures out the container (<see cref="T:indice.Edi.EdiStructureType"/>) based upon the current pool of <seealso cref="T:indice.Edi.Serialization.EdiStructureAttribute"/>.
             </summary>
             <param name="attributes"></param>
+            <returns></returns>
+        </member>
+        <member name="M:indice.Edi.Utilities.EdiExtensions.TryParse(System.String,System.Nullable{indice.Edi.Picture},System.Nullable{System.Char},System.Decimal@)">
+            <summary>
+            Numberic Parse helper from string to <see cref="T:System.Decimal"/>. 
+            </summary>
+            <param name="value">The decimal string representation</param>
+            <param name="picture">The format spec</param>
+            <param name="decimalMark">The character used to represent a decimal point</param>
+            <param name="number">The outcome</param>
+            <returns></returns>
+        </member>
+        <member name="M:indice.Edi.Utilities.EdiExtensions.ParseEdiDate(System.String,System.String,System.Globalization.CultureInfo)">
+            <summary>
+            Parses a string representation of a date into a clr <see cref="T:System.DateTime"/> struct
+            </summary>
+            <param name="value">The string date value</param>
+            <param name="format">The dotnet style format string</param>
+            <param name="culture">The culture info</param>
+            <returns></returns>
+        </member>
+        <member name="M:indice.Edi.Utilities.EdiExtensions.TryParseEdiDate(System.String,System.String,System.Globalization.CultureInfo,System.DateTime@)">
+            <summary>
+            Parses a string representation of a date into a clr <see cref="T:System.DateTime"/> struct
+            </summary>
+            <param name="value">The string date value</param>
+            <param name="format">The dotnet style format string</param>
+            <param name="culture">The culture info</param>
+            <param name="date">The outcome</param>
+            <returns></returns>
+        </member>
+        <member name="M:indice.Edi.Utilities.EdiExtensions.Parse(System.String,System.Nullable{indice.Edi.Picture},System.Nullable{System.Char})">
+            <summary>
+            Parse the <see cref="T:System.String"/> value into a decimal using any formatting hints available from the grammar itself as well as value spec.
+            </summary>
+            <param name="value"></param>
+            <param name="picture"></param>
+            <param name="decimalMark"></param>
+            <returns></returns>
+        </member>
+        <member name="M:indice.Edi.Utilities.EdiExtensions.ToEdiString(System.Single,System.Nullable{indice.Edi.Picture},System.Nullable{System.Char})">
+            <summary>
+            Converts the given value into a string representation according to the <see cref="T:indice.Edi.IEdiGrammar"/> and the value spec.
+            </summary>
+            <param name="value"></param>
+            <param name="picture"></param>
+            <param name="decimalMark"></param>
+            <returns></returns>
+        </member>
+        <member name="M:indice.Edi.Utilities.EdiExtensions.ToEdiString(System.Double,System.Nullable{indice.Edi.Picture},System.Nullable{System.Char})">
+            <summary>
+            Converts the given value into a string representation according to the <see cref="T:indice.Edi.IEdiGrammar"/> and the value spec.
+            </summary>
+            <param name="value"></param>
+            <param name="picture"></param>
+            <param name="decimalMark"></param>
+            <returns></returns>
+        </member>
+        <member name="M:indice.Edi.Utilities.EdiExtensions.ToEdiString(System.Decimal,System.Nullable{indice.Edi.Picture},System.Nullable{System.Char})">
+            <summary>
+            Converts the given value into a string representation according to the <see cref="T:indice.Edi.IEdiGrammar"/> and the value spec.
+            </summary>
+            <param name="value"></param>
+            <param name="picture"></param>
+            <param name="decimalMark"></param>
+            <returns></returns>
+        </member>
+        <member name="M:indice.Edi.Utilities.EdiExtensions.ToEdiString(System.Nullable{System.Single},System.Nullable{indice.Edi.Picture},System.Nullable{System.Char})">
+            <summary>
+            Converts the given value into a string representation according to the <see cref="T:indice.Edi.IEdiGrammar"/> and the value spec.
+            </summary>
+            <param name="value"></param>
+            <param name="picture"></param>
+            <param name="decimalMark"></param>
+            <returns></returns>
+        </member>
+        <member name="M:indice.Edi.Utilities.EdiExtensions.ToEdiString(System.Nullable{System.Double},System.Nullable{indice.Edi.Picture},System.Nullable{System.Char})">
+            <summary>
+            Converts the given value into a string representation according to the <see cref="T:indice.Edi.IEdiGrammar"/> and the value spec.
+            </summary>
+            <param name="value"></param>
+            <param name="picture"></param>
+            <param name="decimalMark"></param>
+            <returns></returns>
+        </member>
+        <member name="M:indice.Edi.Utilities.EdiExtensions.ToEdiString(System.Nullable{System.Int32},System.Nullable{indice.Edi.Picture})">
+            <summary>
+            Converts the given value into a string representation according to the <see cref="T:indice.Edi.IEdiGrammar"/> and the value spec.
+            </summary>
+            <param name="value"></param>
+            <param name="picture"></param>
+            <returns></returns>
+        </member>
+        <member name="M:indice.Edi.Utilities.EdiExtensions.ToEdiString(System.Int32,System.Nullable{indice.Edi.Picture})">
+            <summary>
+            Converts the given value into a string representation according to the <see cref="T:indice.Edi.IEdiGrammar"/> and the value spec.
+            </summary>
+            <param name="value"></param>
+            <param name="picture"></param>
+            <returns></returns>
+        </member>
+        <member name="M:indice.Edi.Utilities.EdiExtensions.ToEdiString(System.Int64,System.Nullable{indice.Edi.Picture})">
+            <summary>
+            Converts the given value into a string representation according to the <see cref="T:indice.Edi.IEdiGrammar"/> and the value spec.
+            </summary>
+            <param name="value"></param>
+            <param name="picture"></param>
+            <returns></returns>
+        </member>
+        <member name="M:indice.Edi.Utilities.EdiExtensions.ToEdiString(System.Nullable{System.Decimal},System.Nullable{indice.Edi.Picture},System.Nullable{System.Char})">
+            <summary>
+            Converts the given value into a string representation according to the <see cref="T:indice.Edi.IEdiGrammar"/> and the value spec.
+            </summary>
+            <param name="value"></param>
+            <param name="picture"></param>
+            <param name="decimalMark"></param>
+            <returns></returns>
+        </member>
+        <member name="M:indice.Edi.Utilities.EdiExtensions.ToEdiString(System.Nullable{System.Int64},System.Nullable{indice.Edi.Picture})">
+            <summary>
+            Converts the given value into a string representation according to the <see cref="T:indice.Edi.IEdiGrammar"/> and the value spec.
+            </summary>
+            <param name="value"></param>
+            <param name="picture"></param>
             <returns></returns>
         </member>
         <member name="M:indice.Edi.Utilities.ReflectionUtils.GetCollectionItemType(System.Type)">

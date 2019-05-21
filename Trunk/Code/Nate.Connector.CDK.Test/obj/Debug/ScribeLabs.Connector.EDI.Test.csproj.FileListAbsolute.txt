@@ -12,7 +12,6 @@ C:\Users\nkeefe\Documents\G2\Adapters\ScribeLabs.Connector.EDI\Trunk\Code\Nate.C
 C:\Users\nkeefe\Documents\G2\Adapters\ScribeLabs.Connector.EDI\Trunk\Code\Nate.Connector.CDK.Test\bin\Debug\Microsoft.Practices.Unity.Interception.dll
 C:\Users\nkeefe\Documents\G2\Adapters\ScribeLabs.Connector.EDI\Trunk\Code\Nate.Connector.CDK.Test\bin\Debug\Microsoft.Practices.ServiceLocation.dll
 C:\Users\nkeefe\Documents\G2\Adapters\ScribeLabs.Connector.EDI\Trunk\Code\Nate.Connector.CDK.Test\bin\Debug\Microsoft.Practices.Unity.dll
-C:\Users\nkeefe\Documents\G2\Adapters\ScribeLabs.Connector.EDI\Trunk\Code\Nate.Connector.CDK.Test\obj\Debug\ScribeLabs.Connector.EDI.Test.csprojResolveAssemblyReference.cache
 C:\Users\nkeefe\Documents\G2\Adapters\ScribeLabs.Connector.EDI\Trunk\Code\Nate.Connector.CDK.Test\obj\Debug\ScribeLabs.Connector.EDI.dll
 C:\Users\nkeefe\Documents\G2\Adapters\ScribeLabs.Connector.EDI\Trunk\Code\Nate.Connector.CDK.Test\obj\Debug\ScribeLabs.Connector.EDI.pdb
 C:\Users\nkeefe\Documents\G2\Adapters\ScribeLabs.Connector.EDI\Trunk\Code\Nate.Connector.CDK.Test\bin\Debug\Scribe.Connector.Common.Reflection.dll
@@ -21,3 +20,7 @@ C:\Users\nkeefe\Documents\G2\Adapters\ScribeLabs.Connector.EDI\Trunk\Code\Nate.C
 C:\Users\nkeefe\Documents\G2\Adapters\ScribeLabs.Connector.EDI\Trunk\Code\Nate.Connector.CDK.Test\bin\Debug\Scribe.Connector.Common.Reflection.pdb
 C:\Users\nkeefe\Documents\G2\Adapters\ScribeLabs.Connector.EDI\Trunk\Code\Nate.Connector.CDK.Test\bin\Debug\indice.Edi.xml
 C:\Users\nkeefe\Documents\G2\Adapters\ScribeLabs.Connector.EDI\Trunk\Code\Nate.Connector.CDK.Test\bin\Debug\System.ValueTuple.xml
+C:\Users\nkeefe\Documents\G2\Adapters\ScribeLabs.Connector.EDI\Trunk\Code\Nate.Connector.CDK.Test\obj\Debug\ScribeLabs.Connector.EDI.Test.csprojAssemblyReference.cache
+C:\Users\nkeefe\Documents\G2\Adapters\ScribeLabs.Connector.EDI\Trunk\Code\Nate.Connector.CDK.Test\obj\Debug\ScribeLabs.Connector.EDI.Test.csproj.CoreCompileInputs.cache
+C:\Users\nkeefe\Documents\G2\Adapters\ScribeLabs.Connector.EDI\Trunk\Code\Nate.Connector.CDK.Test\obj\Debug\ScribeLabs.Connector.EDI.Test.csproj.CopyComplete
+C:\Users\nkeefe\Documents\G2\Adapters\ScribeLabs.Connector.EDI\Trunk\Code\Nate.Connector.CDK.Test\bin\Debug\indice.Edi.pdb

@@ -28,7 +28,7 @@ namespace CDK
     ConnectorVersion)]
     #endregion
 
-    public class Connector : IConnector, IDisposable, ISupportMessage //ISupportOAuth, ISupportProcessNotifications
+    public class Connector : IConnector, IDisposable //, ISupportMessage, ISupportOAuth, ISupportProcessNotifications
     {
         #region Constants
 
@@ -86,11 +86,12 @@ namespace CDK
             throw new ApplicationException(msg, exception);
         }
 
+        public Guid ConnectorTypeId => Guid.Parse(ConnectorTypeIdAsString);
+
         #endregion
 
         #region IConnector implimentation
 
-        public Guid ConnectorTypeId => Guid.Parse(ConnectorTypeIdAsString);
         public bool IsConnected
         {
             get
@@ -199,25 +200,7 @@ namespace CDK
 
         public IEnumerable<DataEntity> ProcessMessage(string entityName, string message)
         {
-            using (new LogMethodExecution(ConnectorTypeDescription, methodInfo.GetCurrentMethodName()))
-            {
-                try
-                {
-                    if (service == null || service.IsConnected == false)
-                        throw new ApplicationException("Must connect before calling " + methodInfo.GetCurrentMethodName());
-
-                    return service.ProcessNotification(entityName, message);
-                }
-                catch (InvalidOperationException)
-                {
-                    throw;
-                }
-                catch (Exception exception)
-                {
-                    unhandledExecptionHandler(methodInfo.GetCurrentMethodName(), exception);
-                    throw;
-                }
-            }
+            throw new NotImplementedException();
         }
 
         public OperationResult ExecuteOperation(OperationInput input)
@@ -243,7 +226,7 @@ namespace CDK
 
                     switch (action)
                     {
-                        case ConnectorService.SupportedActions.Create:
+                        case ConnectorService.SupportedActions.CreateWith:
                             return service.Create(input.Input[0]);
                         default:
                             throw new InvalidExecuteOperationException("Unsupported operation: " + input.Name);

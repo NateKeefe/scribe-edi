@@ -1,6 +1,5 @@
 C:\Users\nkeefe\Documents\G2\Adapters\ScribeLabs.Connector.EDI\Trunk\Code\Nate.Connector.CDK\bin\Debug\ScribeLabs.Connector.EDI.dll
 C:\Users\nkeefe\Documents\G2\Adapters\ScribeLabs.Connector.EDI\Trunk\Code\Nate.Connector.CDK\bin\Debug\ScribeLabs.Connector.EDI.pdb
-C:\Users\nkeefe\Documents\G2\Adapters\ScribeLabs.Connector.EDI\Trunk\Code\Nate.Connector.CDK\obj\Debug\ScribeLabs.Connector.EDI.csprojResolveAssemblyReference.cache
 C:\Users\nkeefe\Documents\G2\Adapters\ScribeLabs.Connector.EDI\Trunk\Code\Nate.Connector.CDK\obj\Debug\ScribeLabs.Connector.EDI.dll
 C:\Users\nkeefe\Documents\G2\Adapters\ScribeLabs.Connector.EDI\Trunk\Code\Nate.Connector.CDK\obj\Debug\ScribeLabs.Connector.EDI.pdb
 C:\Users\nkeefe\Documents\G2\Adapters\ScribeLabs.Connector.EDI\Trunk\Code\Nate.Connector.CDK\bin\Debug\indice.Edi.dll
@@ -11,3 +10,7 @@ C:\Users\nkeefe\Documents\G2\Adapters\ScribeLabs.Connector.EDI\Trunk\Code\Nate.C
 C:\Users\nkeefe\Documents\G2\Adapters\ScribeLabs.Connector.EDI\Trunk\Code\Nate.Connector.CDK\bin\Debug\System.ValueTuple.xml
 C:\Users\nkeefe\Documents\G2\Adapters\ScribeLabs.Connector.EDI\Trunk\Code\Nate.Connector.CDK\obj\Debug\CDK.packages.StringMessages.resources
 C:\Users\nkeefe\Documents\G2\Adapters\ScribeLabs.Connector.EDI\Trunk\Code\Nate.Connector.CDK\obj\Debug\ScribeLabs.Connector.EDI.csproj.GenerateResource.Cache
+C:\Users\nkeefe\Documents\G2\Adapters\ScribeLabs.Connector.EDI\Trunk\Code\Nate.Connector.CDK\obj\Debug\ScribeLabs.Connector.EDI.csprojAssemblyReference.cache
+C:\Users\nkeefe\Documents\G2\Adapters\ScribeLabs.Connector.EDI\Trunk\Code\Nate.Connector.CDK\obj\Debug\ScribeLabs.Connector.EDI.csproj.CoreCompileInputs.cache
+C:\Users\nkeefe\Documents\G2\Adapters\ScribeLabs.Connector.EDI\Trunk\Code\Nate.Connector.CDK\obj\Debug\ScribeLabs.Connector.EDI.csproj.CopyComplete
+C:\Users\nkeefe\Documents\G2\Adapters\ScribeLabs.Connector.EDI\Trunk\Code\Nate.Connector.CDK\bin\Debug\indice.Edi.pdb

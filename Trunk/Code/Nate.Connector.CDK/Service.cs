@@ -17,6 +17,7 @@ using CDK.Objects;
 using CDK.packages;
 using CDK.EDIDocs;
 using Scribe.Core.ConnectorApi.Logger;
+using CDK.EDI_Docs;
 
 namespace CDK
 {
@@ -43,7 +44,7 @@ namespace CDK
         {
             Query,
             Create,
-            Message
+            CreateWith
         }
 
         public void Connect(ConnectionHelper.ConnectionProperties connectionProps)
@@ -63,15 +64,7 @@ namespace CDK
 
         public IEnumerable<DataEntity> ProcessNotification(string entityName, string message)
         {
-            switch (entityName)
-            {
-                case EntityNames.Invoice_810:
-                    yield break;
-                case EntityNames.PurchaseOrder_850:
-                    yield break;
-                default:
-                    throw new ApplicationException("Execute does not support object type: " + entityName);
-            }
+            throw new ApplicationException("Execute does not support object type: " + entityName);
         }
 
         #endregion 
@@ -81,16 +74,43 @@ namespace CDK
         {
             var entityName = dataEntity.ObjectDefinitionFullName;
             var operationResult = new OperationResult();
+            var output = new DataEntity(entityName);
 
-            switch(entityName)
+            switch (entityName)
             {
-                case EntityNames.Invoice_810:
-
+                case EntityNames.X12_Invoice_810:
+                    var invoice810 = ToScribeModel<Invoice_810>(dataEntity);
+                    var grammar = EdiGrammar.NewX12();
+                    using (var textWriter = new StreamWriter(File.Open(@"c:\temp\invoice.edi", FileMode.Create)))
+                    {
+                        using (var ediWriter = new EdiTextWriter(textWriter, grammar))
+                        {
+                            new EdiSerializer().Serialize(ediWriter, invoice810);
+                        }
+                    }
+                        break;
+                case "OrderTest":
+                    var order = ToScribeModel<EDI_Docs.OrderTest>(dataEntity);
+                    var grammar2 = EdiGrammar.NewEdiFact();
+                    //grammar2.SetAdvice("+","+",":","","?","",".");
+                    using (var textWriter = new StreamWriter(File.Open(@"c:\temp\order.edi", FileMode.Create)))
+                    {
+                        using (var ediWriter = new EdiTextWriter(textWriter, grammar2))
+                        {
+                            new EdiSerializer().Serialize(ediWriter, order);
+                        }
+                    }
                     break;
                 default:
                     throw new ArgumentException($"{entityName} is not supported for Create.");
             }
-
+            operationResult = new OperationResult
+            {
+                ErrorInfo = new ErrorResult[] { null },
+                ObjectsAffected = new[] { 1 },
+                Output = new[] { output },
+                Success = new[] { true }
+            };
             return operationResult;
         }
 
@@ -119,8 +139,9 @@ namespace CDK
             //deserialize file
             switch (entityName)
             {
-                case EntityNames.PurchaseOrder_850: return ReadEDI<PurchaseOrder_850>(rawData, query, reflector);
-                case EntityNames.Invoice_810: return ReadEDI<Invoice_810>(rawData, query, reflector);
+                case EntityNames.X12_PurchaseOrder_850: return ReadEDI<PurchaseOrder_850>(rawData, query, reflector, EdiGrammar.NewX12());
+                case EntityNames.X12_Invoice_810: return ReadEDI<Invoice_810>(rawData, query, reflector, EdiGrammar.NewX12());
+                case "S_ORDRSP": return ReadEDI<ORDRSP>(rawData, query, reflector, EdiGrammar.NewEdiFact());
 
                 default:
                     throw new InvalidExecuteQueryException(
@@ -203,21 +224,18 @@ namespace CDK
             catch (Exception exp)
             {
                 Logger.Write(Logger.Severity.Error,
-                    $"Cannot find Folder or File when querying entity: {entityName}.",
-                    exp.Message + exp.InnerException);
+                    $"Cannot find Folder or File when querying entity: {entityName}.", exp.InnerException.Message);
                 throw new InvalidExecuteQueryException("Cannot find Folder or File: " + exp.Message);
             }
             return rawData;
         }
 
-        public static IEnumerable<DataEntity> ReadEDI<T>(string raw, Query query, Reflector r)
+        public static IEnumerable<DataEntity> ReadEDI<T>(string raw, Query query, Reflector r, IEdiGrammar grammar)
         {
-            var grammar = EdiGrammar.NewX12();
             var n = default(T);
             using (TextReader sr = new StringReader(raw)) { n = new EdiSerializer().Deserialize<T>(sr, grammar); }
             return r.ToDataEntities(new[] { n }, query.RootEntity);
         }
-
         #endregion
 
         #region Metadata
